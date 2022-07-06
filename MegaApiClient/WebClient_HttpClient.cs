@@ -5,7 +5,7 @@ namespace CG.Web.MegaApiClient
   using System.IO;
   using System.Net;
   using System.Reflection;
-  using System.Text;
+  using System.Text;https://github.com/NILLPUB/MegaApiClient_chunk/blob/master/MegaApiClient/WebClient_HttpClient.cs
   using System.Threading;
 #if NET471 || NETSTANDARD
   using System.Security.Authentication;
@@ -112,7 +112,12 @@ namespace CG.Web.MegaApiClient
     private static HttpClient CreateHttpClient(int timeout, ProductInfoHeaderValue userAgent)
     {
 #if NET471 || NETSTANDARD
-      var httpClient = new HttpClient(new HttpClientHandler { SslProtocols = SslProtocols.Tls12 }, true);
+  var httpClientHandler = new HttpClientHandler
+  {
+    Proxy = new WebProxy("http://localhost:8888", false),
+    UseProxy = true
+  };
+      using (var client = new HttpClient(httpClientHandler));
 #else
       var httpClient = new HttpClient();
 #endif
